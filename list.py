@@ -22,5 +22,6 @@ a.insert(0,1)
 print(a)
 
 print("Remove")
-a.del(0)
+#del a[1]
+a.remove(0)
 print(a)

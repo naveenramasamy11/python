@@ -13,4 +13,4 @@ def pyramid(x):
             print('* ',end='')
         print('')
 
-pyramid(5)
+pyramid(10)

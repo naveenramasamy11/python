@@ -7,10 +7,10 @@ def pyramid(x):
             print('* ',end='')
         print('')
     for i in range(x):
-        for k in range(x):
-            print('',end='')
-        for j in range(x-i,-1,-1):
+        for k in range(i+1):
+            print(' ',end='')
+        for j in range(x-i-1,-1,-1):
             print('* ',end='')
         print('')
 
-pyramid(10)
+pyramid(5)

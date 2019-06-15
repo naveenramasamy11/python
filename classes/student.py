@@ -7,9 +7,10 @@ class Student:
     def salary(self,rs):
         self.rs = rs
         rs = rs * 25 / 100
-        print("Salary increment for", '{} {}'.format(self.fname.capitalize(),self.lname.capitalize()),  'is:',rs)
+        print("Salary increment for", '{} {}'.format(self.fname.capitalize(), \
+            self.lname.capitalize()),  'is:',rs)
 
-std1 = Student('naveen', 'ramasamy')
+std1 = Student('naveen', 'ramasamy') 
 std2 = Student('roger', 'federer')
 std3 = Student('Peter', 'smith')
 std1.salary(2000)

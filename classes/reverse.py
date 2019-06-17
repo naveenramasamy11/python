@@ -10,6 +10,11 @@ class Reverse:
         for i in range(totalLength -1 ,-1,-1):
             reverseStr += self.revstring[i] 
         print(reverseStr)
-
 rev=Reverse('ambulance')
+rev.reverse()
+rev=Reverse('camera')
+rev.reverse()
+rev=Reverse('photography')
+rev.reverse()
+rev=Reverse('mars')
 rev.reverse()

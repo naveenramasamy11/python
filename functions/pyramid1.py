@@ -10,4 +10,4 @@ def pyramid(n):
       print((n -i) * a, end='')
       print(i * b)
 
-pyramid(4)
+pyramid(14)

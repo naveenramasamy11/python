@@ -10,4 +10,4 @@ def pyramid(n):
       print((n -i) * a, end='')
       print(i * b)
 
-pyramid(14)
+pyramid(int(input("Enter the range \n")))

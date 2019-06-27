@@ -8,9 +8,9 @@ class Fibonacci:
         i = 0
         while i < n:
             thirdNumber = self.fn + self.sn
+            print(self.fn)
             self.fn = self.sn
             self.sn = thirdNumber
-            print(self.fn)
             i += 1
 abj1 = Fibonacci(1,1)
 abj1.fib(10)

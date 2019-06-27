@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.7
-class pyramid:
+class Pyramid:
     def __init__(self,Range,pattern,spaces):
         self.Range = Range
         self.pattern = pattern
@@ -13,5 +13,5 @@ class pyramid:
         for i in range(n,-1,-1):
             print((n - i) * self.spaces, end = '')
             print(i * self.pattern)
-abj1 = pyramid(10,' *',' ')
+abj1 = Pyramid(10,' *',' ')
 abj1.convert()

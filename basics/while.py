@@ -1,8 +1,10 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
+"""Demonstrates a while loop with a break condition."""
+
 a = 10
 while True:
-  response = input()
-  if int(response) % a == 0:
-    print("divisble")
-    break
-  
+    response = int(input("Enter a number divisible by 10: "))
+    if response % a == 0:
+        print(f"{response} is divisible by {a}")
+        break
+    print("Try again.")

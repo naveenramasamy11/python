@@ -1,20 +1,15 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
+"""String reversal using a class."""
+
+
 class Reverse:
-    def __init__(self,revstring):
-        self.revstring = revstring
-    
-    def reverse(self):
-        reverseStr = ''
-        totalLength = len(self.revstring)
-       # print(totalLength)
-        for i in range(totalLength -1 ,-1,-1):
-            reverseStr += self.revstring[i] 
-        print(reverseStr)
-rev=Reverse('ambulance')
-rev.reverse()
-rev=Reverse('camera')
-rev.reverse()
-rev=Reverse('photography')
-rev.reverse()
-rev=Reverse('mars')
-rev.reverse()
+    def __init__(self, text: str) -> None:
+        self.text = text
+
+    def reverse(self) -> str:
+        return self.text[::-1]
+
+
+for word in ("ambulance", "camera", "photography", "mars"):
+    obj = Reverse(word)
+    print(f"{word} -> {obj.reverse()}")

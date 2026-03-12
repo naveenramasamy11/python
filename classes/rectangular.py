@@ -1,10 +1,15 @@
-#!/usr/bin/env python3.7
-class Rectangle:
-    def __init__(self,l,b):
-        self.l = l
-        self.b = b
-    def calc(self):
-        return self.l * self.b
+#!/usr/bin/env python3
+"""Rectangle area calculation using a class."""
 
-abj=Rectangle(4,3)
-print("Area of length and breath is:\n", abj.calc())
+
+class Rectangle:
+    def __init__(self, length: float, breadth: float) -> None:
+        self.length = length
+        self.breadth = breadth
+
+    def area(self) -> float:
+        return self.length * self.breadth
+
+
+obj = Rectangle(4, 3)
+print(f"Area of rectangle (length={obj.length}, breadth={obj.breadth}): {obj.area()}")

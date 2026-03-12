@@ -1,18 +1,21 @@
-#!/usr/bin/env python3.7
-class Student:
-    def __init__(self, fname, lname):
-        self.fname = fname
-        self.lname = lname
-        print("Full name is", '{} {}'.format(fname.capitalize(),lname.capitalize()))
-    def salary(self,rs):
-        self.rs = rs
-        rs = rs * 25 / 100
-        print("Salary increment for", '{} {}'.format(self.fname.capitalize(), \
-            self.lname.capitalize()),  'is:',rs)
+#!/usr/bin/env python3
+"""Student class demonstrating instance variables and methods."""
 
-std1 = Student('naveen', 'ramasamy') 
-std2 = Student('roger', 'federer')
-std3 = Student('Peter', 'smith')
-std1.salary(2000)
-std2.salary(3000)
-std3.salary(4000)
+
+class Student:
+    def __init__(self, fname: str, lname: str) -> None:
+        self.fname = fname.capitalize()
+        self.lname = lname.capitalize()
+        print(f"Full name: {self.fname} {self.lname}")
+
+    def salary_increment(self, current_salary: float) -> None:
+        increment = current_salary * 0.25
+        print(f"Salary increment for {self.fname} {self.lname}: {increment:.2f}")
+
+
+std1 = Student("naveen", "ramasamy")
+std2 = Student("roger", "federer")
+std3 = Student("peter", "smith")
+std1.salary_increment(2000)
+std2.salary_increment(3000)
+std3.salary_increment(4000)

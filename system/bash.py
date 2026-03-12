@@ -1,11 +1,25 @@
-#!/usr/bin/env python3.7
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
+"""Run shell commands using subprocess and compare file/directory ratio."""
+
 import subprocess
-var1 = int((subprocess.run("ls -l| wc -l", shell=True, stdout=subprocess.PIPE, universal_newlines=True)).stdout)
-var2 = int((subprocess.run("ls -l| grep '^d' | wc -l", shell=True, stdout=subprocess.PIPE, universal_newlines=True)).stdout)
-print(var1)
-var3 = var1/var2 * 10
-if var3 > 90:
-  print("greater than")
+
+
+def run_command(cmd: str) -> int:
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    return int(result.stdout.strip())
+
+
+total_entries = run_command("ls -l | wc -l")
+total_dirs = run_command("ls -l | grep '^d' | wc -l")
+
+print(f"Total entries:     {total_entries}")
+print(f"Total directories: {total_dirs}")
+
+if total_dirs > 0:
+    ratio = (total_entries / total_dirs) * 10
+    if ratio > 90:
+        print(f"Ratio {ratio:.1f} is greater than 90")
+    else:
+        print(f"Ratio {ratio:.1f} is less than or equal to 90")
 else:
-  print("less than")
+    print("No subdirectories found.")

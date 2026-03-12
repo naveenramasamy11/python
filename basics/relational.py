@@ -1,9 +1,12 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
+"""Demonstrates relational (comparison) operators."""
+
 a = 20
-response = input()
-if int(response) < a:
-  print("It is less than a")
-elif int(response) > a:
-  print("It is greater than a")
+response = int(input("Enter a number: "))
+
+if response < a:
+    print(f"{response} is less than {a}")
+elif response > a:
+    print(f"{response} is greater than {a}")
 else:
-  print("It is equal")
+    print(f"{response} is equal to {a}")

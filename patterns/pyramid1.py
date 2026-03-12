@@ -1,13 +1,12 @@
-#!/usr/bin/env python3.7
-def pyramid(n):
-    a = ' '
-    b = '* '
+#!/usr/bin/env python3
+"""Simple pyramid with user-defined range."""
+
+
+def pyramid(n: int) -> None:
     for i in range(n):
-      print((n -i) * a, end='')
-      print(i * b)
+        print(" " * (n - i) + "* " * i)
+    for i in range(n, -1, -1):
+        print(" " * (n - i) + "* " * i)
 
-    for i in range(n,-1,-1):
-      print((n -i) * a, end='')
-      print(i * b)
 
-pyramid(int(input("Enter the range \n")))
+pyramid(int(input("Enter the range: ")))

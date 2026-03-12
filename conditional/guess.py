@@ -1,8 +1,9 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
+"""Number guessing game — guess a single-digit number (0-9)."""
+
 while True:
-  x = input("Guess a number that I have in my mind:\n")
-  if int(x) <= 9 and int(x) >= 0:
-    print("You guessed it right!!")
-    break
-  else:
-    print("Try again")
+    x = input("Guess a single-digit number (0-9): ").strip()
+    if x.isdigit() and 0 <= int(x) <= 9:
+        print("You guessed it right!")
+        break
+    print("Try again — enter a number between 0 and 9.")

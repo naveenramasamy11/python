@@ -1,13 +1,8 @@
-#!/usr/bin/env python3.7
-v=0
-c=0
-string=input("Enter a string or sentence:\n")
-for i in string:
-  if i.lower() in "aeiou":
-    v += 1
-#  else:
-  elif i not in "aeiou" and i not in ' ':
-    c += 1
-print("total vowels", v)
-print("total consonents", c)
+#!/usr/bin/env python3
+"""Count vowels and consonants in a string."""
 
+string = input("Enter a string or sentence: ").lower()
+vowels = sum(1 for ch in string if ch in "aeiou")
+consonants = sum(1 for ch in string if ch.isalpha() and ch not in "aeiou")
+print(f"Total vowels:     {vowels}")
+print(f"Total consonants: {consonants}")

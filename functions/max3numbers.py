@@ -1,10 +1,10 @@
-#!/usr/bin/env python3.7
-def max(x,y,z):
-    if (x > y) and (x > z):
-        print("Maxminum value is X:",x)
-    elif(y > x) and (y > z):
-        print("Maximum value is Y:",y)
-    else:
-        print("Maximum value is Z",z)
+#!/usr/bin/env python3
+"""Find the maximum of three numbers."""
 
-max(2,14,5)
+
+def max_of_three(x: float, y: float, z: float) -> float:
+    return max(x, y, z)
+
+
+result = max_of_three(2, 14, 5)
+print(f"Maximum value: {result}")

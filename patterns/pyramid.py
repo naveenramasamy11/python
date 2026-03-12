@@ -1,16 +1,12 @@
-#!/usr/bin/env python3.7
-def pyramid(x):
+#!/usr/bin/env python3
+"""Full diamond pyramid using a function."""
+
+
+def pyramid(x: int) -> None:
     for i in range(x):
-        for k in range(x-i,-1,-1):
-            print(' ',end='')
-        for j in range(1,i+1):
-            print('* ',end='')
-        print('')
-    for i in range(x):
-        for k in range(i+1):
-            print(' ',end='')
-        for j in range(x-i-1,-1,-1):
-            print('* ',end='')
-        print('')
+        print(" " * (x - i) + "* " * i)
+    for i in range(x, -1, -1):
+        print(" " * (x - i) + "* " * i)
+
 
 pyramid(10)

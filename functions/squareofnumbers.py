@@ -1,7 +1,9 @@
-#!/usr/bin/env python3.7
-squareValueofitself=list()
-def square(n):
-    for i in range(1,n+1):
-        squareValueofitself.append(i * i)
-    print(squareValueofitself)
-square(10)
+#!/usr/bin/env python3
+"""Generate a list of squares for numbers 1 through n."""
+
+
+def squares(n: int) -> list:
+    return [i * i for i in range(1, n + 1)]
+
+
+print(squares(10))

@@ -1,17 +1,22 @@
-#!/usr/bin/env python3.7
-class Pyramid:
-    def __init__(self,Range,pattern,spaces):
-        self.Range = Range
-        self.pattern = pattern
-        self. spaces = spaces
+#!/usr/bin/env python3
+"""Pyramid pattern using a class."""
 
-    def convert(self):
-        n = self.Range
+
+class Pyramid:
+    def __init__(self, range_n: int, pattern: str, spaces: str) -> None:
+        self.range_n = range_n
+        self.pattern = pattern
+        self.spaces = spaces
+
+    def convert(self) -> None:
+        n = self.range_n
         for i in range(n):
-            print((n - i) * self.spaces, end='')
+            print((n - i) * self.spaces, end="")
             print(i * self.pattern)
-        for i in range(n,-1,-1):
-            print((n - i) * self.spaces, end = '')
+        for i in range(n, -1, -1):
+            print((n - i) * self.spaces, end="")
             print(i * self.pattern)
-abj1 = Pyramid(10,' *',' ')
-abj1.convert()
+
+
+obj = Pyramid(10, " *", " ")
+obj.convert()

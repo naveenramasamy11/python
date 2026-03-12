@@ -1,9 +1,10 @@
-#!/usr/bin/env python3.7
-def getonlyeven(even):
-    newList=[]
-    for i in range(len(even)):
-        if even[i] % 2 == 0:
-            newList.append(even[i])
-    print(newList)
+#!/usr/bin/env python3
+"""Filter and return only even numbers from a list."""
 
-getonlyeven([1,2,2,6,8,12,11,3])
+
+def get_only_even(numbers: list) -> list:
+    return [n for n in numbers if n % 2 == 0]
+
+
+result = get_only_even([1, 2, 2, 6, 8, 12, 11, 3])
+print(result)

@@ -1,10 +1,15 @@
-#!/usr/bin/env python3.7
-def unique(uniquelist):
-    new_list=[]
-    for i in range(len(uniquelist)):
-        if uniquelist[i] not in new_list:
-            new_list.append(uniquelist[i])
-    print(new_list)
+#!/usr/bin/env python3
+"""Remove duplicates from a list while preserving order."""
 
-unique([1,2,3,4,4,5,5,6,7,7,7,7,7,8,8,8,8])
-     
+
+def unique(items: list) -> list:
+    seen = set()
+    result = []
+    for x in items:
+        if x not in seen:
+            seen.add(x)
+            result.append(x)
+    return result
+
+
+print(unique([1, 2, 3, 4, 4, 5, 5, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8]))

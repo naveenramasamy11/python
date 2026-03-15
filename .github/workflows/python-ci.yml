@@ -85,11 +85,17 @@ jobs:
             -o bandit-report.json \
             || true
 
+      - name: Sanitize branch name for artifact
+        id: sanitize
+        run: |
+          SAFE=$(echo "${{ github.ref_name }}" | tr '/' '-')
+          echo "branch=$SAFE" >> $GITHUB_OUTPUT
+
       - name: Upload Bandit report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: bandit-report-${{ github.ref_name }}-${{ github.run_number }}
+          name: bandit-report-${{ steps.sanitize.outputs.branch }}-${{ github.run_number }}
           path: bandit-report.json
 
   # ═══════════════════════════════════════════════════════════════

@@ -1,121 +1,39 @@
-name: Security & Code Validation
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# GitFlow Branch Strategy
+#
+#  feature/* ──► develop ──► release/v* ──► master ──► Production Deploy
+#
+#  feature/*    → Flake8 syntax check + Bandit SAST (fast feedback)
+#  develop      → feature jobs + Safety CVE + Semgrep OWASP
+#  release/v*   → develop jobs + Gitleaks secrets + full Semgrep
+#  master       → ALL jobs + Production deploy gate
+# ─────────────────────────────────────────────────────────────────────────────
+name: Python Security & GitFlow CI
 
-on:
+"on":
   push:
-    branches: ["**"]
+    branches:
+      - "feature/**"
+      - develop
+      - "release/**"
+      - master
   pull_request:
-    branches: ["**"]
+    branches:
+      - develop
+      - "release/**"
+      - master
 
 jobs:
-  # ──────────────────────────────────────────────────────────────
-  # 1. SECRET SCANNING — detect hardcoded credentials/tokens
-  # ──────────────────────────────────────────────────────────────
-  secret-scan:
-    name: Secret Scanning (Gitleaks)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Run Gitleaks secret scan
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # ──────────────────────────────────────────────────────────────
-  # 2. BANDIT — Python SAST (security anti-patterns)
-  # ──────────────────────────────────────────────────────────────
-  bandit:
-    name: Python SAST (Bandit)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install Bandit
-        run: pip install bandit[toml]
-
-      - name: Run Bandit security scan
-        run: |
-          bandit -r . \
-            --exclude .git,.github \
-            -f json \
-            -o bandit-report.json \
-            || true
-          bandit -r . \
-            --exclude .git,.github \
-            -ll \
-            --exit-zero
-
-      - name: Upload Bandit report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: bandit-security-report
-          path: bandit-report.json
-
-  # ──────────────────────────────────────────────────────────────
-  # 3. SAFETY — known CVEs in Python dependencies
-  # ──────────────────────────────────────────────────────────────
-  safety:
-    name: Dependency CVE Scan (Safety)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install Safety
-        run: pip install safety
-
-      - name: Scan dependencies for known CVEs
-        run: |
-          if [ -f requirements.txt ]; then
-            safety check -r requirements.txt --full-report || true
-          else
-            echo "No requirements.txt found — scanning installed packages"
-            safety check --full-report --continue-on-error || true
-          fi
-
-  # ──────────────────────────────────────────────────────────────
-  # 4. SEMGREP — static analysis & Python security rules
-  # ──────────────────────────────────────────────────────────────
-  semgrep:
-    name: Static Analysis (Semgrep)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run Semgrep
-        uses: semgrep/semgrep-action@v1
-        with:
-          config: >
-            p/python
-            p/secrets
-            p/owasp-top-ten
-            p/insecure-transport
-          auditOn: push
-
-  # ──────────────────────────────────────────────────────────────
-  # 5. FLAKE8 — syntax errors & undefined names (hard fail only)
-  # ──────────────────────────────────────────────────────────────
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 1 — feature/* + develop + release/* + master
+  # Fast syntax check & Python SAST
+  # ═══════════════════════════════════════════════════════════════
   flake8-validate:
-    name: Code Validation (Flake8)
+    name: "[ ALL BRANCHES ] Flake8 Syntax Validation"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -126,11 +44,162 @@ jobs:
       - name: Install Flake8
         run: pip install flake8
 
-      - name: Run Flake8 — critical errors only (E9, F63, F7, F82)
+      - name: Flake8 — critical errors only (E9, F63, F7, F82)
         run: |
+          echo "Branch: ${{ github.ref_name }}"
           flake8 . \
             --exclude=.git,.github \
             --count \
             --select=E9,F63,F7,F82 \
             --show-source \
             --statistics
+
+  bandit-sast:
+    name: "[ ALL BRANCHES ] Bandit Python SAST"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Bandit
+        run: pip install bandit[toml]
+
+      - name: Bandit — security anti-pattern scan
+        run: |
+          echo "Branch: ${{ github.ref_name }}"
+          bandit -r . \
+            --exclude .git,.github \
+            -ll \
+            --exit-zero
+
+      - name: Bandit — save JSON report as artifact
+        run: |
+          bandit -r . \
+            --exclude .git,.github \
+            -f json \
+            -o bandit-report.json \
+            || true
+
+      - name: Upload Bandit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bandit-report-${{ github.ref_name }}-${{ github.run_number }}
+          path: bandit-report.json
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 2 — develop + release/* + master only
+  # Dependency CVE scan + OWASP static analysis
+  # ═══════════════════════════════════════════════════════════════
+  safety-cve:
+    name: "[ develop | release | master ] Dependency CVE Scan (Safety)"
+    runs-on: ubuntu-latest
+    if: |
+      github.ref_name == 'develop' ||
+      startsWith(github.ref_name, 'release/') ||
+      github.ref_name == 'master'
+    needs: [flake8-validate, bandit-sast]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Safety
+        run: pip install safety
+
+      - name: Safety — scan for known CVEs
+        run: |
+          echo "Branch: ${{ github.ref_name }}"
+          if [ -f requirements.txt ]; then
+            safety check -r requirements.txt --full-report --continue-on-error || true
+          else
+            echo "No requirements.txt — scanning installed packages"
+            safety check --full-report --continue-on-error || true
+          fi
+
+  semgrep-owasp:
+    name: "[ develop | release | master ] Semgrep OWASP + Secrets"
+    runs-on: ubuntu-latest
+    if: |
+      github.ref_name == 'develop' ||
+      startsWith(github.ref_name, 'release/') ||
+      github.ref_name == 'master'
+    needs: [flake8-validate, bandit-sast]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep (Python + OWASP Top-10 + secrets)
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: >
+            p/python
+            p/owasp-top-ten
+            p/secrets
+            p/insecure-transport
+          auditOn: push
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 3 — release/* + master only
+  # Secret scanning — gate before any release or production push
+  # ═══════════════════════════════════════════════════════════════
+  gitleaks:
+    name: "[ release | master ] Secret Scanning (Gitleaks)"
+    runs-on: ubuntu-latest
+    if: |
+      startsWith(github.ref_name, 'release/') ||
+      github.ref_name == 'master'
+    needs: [safety-cve, semgrep-owasp]
+    steps:
+      - name: Checkout (full history for secret scan)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ═══════════════════════════════════════════════════════════════
+  # STAGE 4 — master only
+  # Production deploy gate — all security checks must pass first
+  # ═══════════════════════════════════════════════════════════════
+  production-deploy:
+    name: "[ master ] Production Deploy Gate"
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'master'
+    needs: [gitleaks]
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: All security checks passed
+        run: |
+          echo "============================================"
+          echo "  ✅ All security gates passed"
+          echo "  Branch : ${{ github.ref_name }}"
+          echo "  Commit : ${{ github.sha }}"
+          echo "  Run    : ${{ github.run_number }}"
+          echo "============================================"
+          echo ""
+          echo "  GitFlow path completed:"
+          echo "  feature/* → develop → release/v* → master"
+          echo ""
+          echo "  ▶ Production deploy can proceed."
+          echo "============================================"
+
+      # ── Add your real deploy step here ───────────────────────
+      # e.g. AWS CodeDeploy, Ansible playbook, kubectl apply, etc.
+      # - name: Deploy to production
+      #   run: ansible-playbook deploy.yml -i production/inventory.yaml

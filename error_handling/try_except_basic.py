@@ -29,6 +29,7 @@ print("=" * 50)
 print("EXAMPLE 1: Handling ZeroDivisionError")
 print("=" * 50)
 
+
 def safe_divide(a, b):
     try:
         # This line might raise a ZeroDivisionError if b is 0
@@ -37,6 +38,7 @@ def safe_divide(a, b):
     except ZeroDivisionError:
         # This block runs only if a ZeroDivisionError is raised above
         print(f"  Error: Cannot divide {a} by zero!")
+
 
 safe_divide(10, 2)   # Works fine → 5.0
 safe_divide(7, 0)    # Triggers ZeroDivisionError → handled gracefully
@@ -54,6 +56,7 @@ print("=" * 50)
 print("EXAMPLE 2: Handling ValueError")
 print("=" * 50)
 
+
 def convert_to_int(value):
     try:
         # int() will raise ValueError if the string isn't a valid number
@@ -62,6 +65,7 @@ def convert_to_int(value):
     except ValueError:
         # Catch it and tell the user what went wrong
         print(f"  Error: '{value}' is not a valid integer.")
+
 
 convert_to_int("42")     # Valid   → 42
 convert_to_int("hello")  # Invalid → ValueError caught
@@ -80,6 +84,7 @@ print("=" * 50)
 print("EXAMPLE 3: Handling TypeError")
 print("=" * 50)
 
+
 def add_values(a, b):
     try:
         # This will fail if a and b are incompatible types (e.g., int + str)
@@ -89,9 +94,10 @@ def add_values(a, b):
         # `as e` captures the exception object so we can print its message
         print(f"  TypeError caught: {e}")
 
-add_values(5, 10)         # int + int = 15 ✓
+
+add_values(5, 10)              # int + int = 15 ✓
 add_values("Hello", " World")  # str + str = "Hello World" ✓
-add_values(5, " apples")  # int + str → TypeError caught
+add_values(5, " apples")       # int + str → TypeError caught
 
 
 # ─────────────────────────────────────────────
@@ -105,6 +111,7 @@ print("=" * 50)
 print("EXAMPLE 4: Capturing the Error Message")
 print("=" * 50)
 
+
 def open_file(filename):
     try:
         # Attempt to open a file that may not exist
@@ -114,6 +121,7 @@ def open_file(filename):
     except FileNotFoundError as e:
         # Print the actual error message from Python
         print(f"  File not found: {e}")
+
 
 open_file("nonexistent_file.txt")  # Will raise FileNotFoundError → caught
 

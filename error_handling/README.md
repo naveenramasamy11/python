@@ -12,12 +12,14 @@ Error handling is a critical skill for writing production-quality Python. Instea
 |------|-------------|--------------|
 | [try_except_basic.py](try_except_basic.py) | Introduction to try/except blocks | `ZeroDivisionError`, `ValueError`, `TypeError`, `FileNotFoundError`, `except as e` |
 | [multiple_exceptions.py](multiple_exceptions.py) | Handling multiple exception types in one try block | Multiple `except` clauses, tuple of exceptions, `except as e`, broad fallback with `Exception` |
+| [finally_block.py](finally_block.py) | Using `finally` for guaranteed cleanup code | `try/except/finally`, resource cleanup, file/DB connection patterns, finally without except |
 
 ## How to Run
 
 ```bash
 python3 try_except_basic.py
 python3 multiple_exceptions.py
+python3 finally_block.py
 ```
 
 ## Prerequisites

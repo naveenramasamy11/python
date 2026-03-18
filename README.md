@@ -12,7 +12,7 @@ A structured collection of Python scripts organized by topic — from core langu
 | Classes | [classes/](./classes) | 5 files | Object-Oriented Programming with classes and methods |
 | Patterns | [patterns/](./patterns) | 5 files | Star and pyramid pattern printing using loops |
 | System | [system/](./system) | 1 file | Shell/subprocess integration with Python |
-| Error Handling | [error_handling/](./error_handling) | 3 files | try/except, multiple exceptions, finally for cleanup |
+| Error Handling | [error_handling/](./error_handling) | 4 files | try/except, multiple exceptions, finally for cleanup, custom exceptions |
 
 ## Requirements
 

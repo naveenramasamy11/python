@@ -14,6 +14,7 @@ Error handling is a critical skill for writing production-quality Python. Instea
 | [multiple_exceptions.py](multiple_exceptions.py) | Handling multiple exception types in one try block | Multiple `except` clauses, tuple of exceptions, `except as e`, broad fallback with `Exception` |
 | [finally_block.py](finally_block.py) | Using `finally` for guaranteed cleanup code | `try/except/finally`, resource cleanup, file/DB connection patterns, finally without except |
 | [custom_exceptions.py](custom_exceptions.py) | Defining and raising your own custom exception classes | `class MyError(Exception)`, custom `__init__`, exception hierarchies, re-raising with `raise` |
+| [exception_chaining.py](exception_chaining.py) | Chaining exceptions with `raise ... from` to preserve error context | `raise X from Y`, `raise X from None`, `__cause__`, `__context__`, `__suppress_context__` |
 
 ## How to Run
 
@@ -22,6 +23,7 @@ python3 try_except_basic.py
 python3 multiple_exceptions.py
 python3 finally_block.py
 python3 custom_exceptions.py
+python3 exception_chaining.py
 ```
 
 ## Prerequisites

@@ -13,6 +13,7 @@ A structured collection of Python scripts organized by topic — from core langu
 | Patterns | [patterns/](./patterns) | 5 files | Star and pyramid pattern printing using loops |
 | System | [system/](./system) | 1 file | Shell/subprocess integration with Python |
 | Error Handling | [error_handling/](./error_handling) | 5 files | try/except, multiple exceptions, finally for cleanup, custom exceptions, exception chaining |
+| File I/O | [file_io/](./file_io) | 1 file | Reading and writing text files, file modes, with statement |
 
 ## Requirements
 
@@ -34,8 +35,8 @@ python3 error_handling/try_except_basic.py
 Follow the topics in order for a structured learning experience:
 
 ```
-basics/ → conditional/ → functions/ → classes/ → patterns/ → system/ → error_handling/
+basics/ → conditional/ → functions/ → classes/ → patterns/ → system/ → error_handling/ → file_io/
 ```
 
 > 📅 This repository is updated every weekday (Mon–Fri) with a new example.
-> Coming soon: **File I/O**, **Data Structures**, **Modules & Packages**
+> Coming soon: **Data Structures**, **Modules & Packages**
